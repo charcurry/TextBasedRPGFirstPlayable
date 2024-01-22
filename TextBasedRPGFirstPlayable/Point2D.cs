@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal class Program
+    internal struct Point2D
     {
-        
-
+        public int x;
+        public int y;
     }
 }

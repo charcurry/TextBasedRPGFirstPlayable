@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal class Program
+    internal class GameObject
     {
-        
-
+        public Point2D position;
     }
 }

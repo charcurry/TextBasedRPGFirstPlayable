@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal class Program
+    internal class Map
     {
-        
-
     }
 }
