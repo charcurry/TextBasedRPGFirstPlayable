@@ -9,6 +9,8 @@ namespace TextBasedRPGFirstPlayable
     internal class HealthSystem
     {
         public int health;
+        public int shield;
+        public int maxHealth;
 
         public HealthSystem(int initHealth)
         {
@@ -16,12 +18,52 @@ namespace TextBasedRPGFirstPlayable
         }
         public void TakeDamage(int damage)
         {
-            health -= damage;
+            if (damage < 0)
+            {
+                Console.WriteLine("Error: Entity Cannot Take " + damage + " Damage");
+            }
+            else if (health - damage <= 0 && shield == 0)
+            {
+                health = 0;
+                shield = 0;
+            }
+            else if (health + shield - damage <= 0)
+            {
+                health = 0;
+                shield = 0;
+            }
+            else if (shield - damage <= 0)
+            {
+
+                health -= (damage - shield);
+                shield = 0;
+            }
+            else if (shield > 0)
+            {
+                shield -= damage;
+
+            }
+            else if (health > 0)
+            {
+
+                health -= damage;
+            }
         }
 
-        public void Heal(int health)
+        public void Heal(int hp)
         {
-            health += health;
+            if (hp < 0)
+            {
+                Console.WriteLine("Error: Entity Cannot Heal " + hp + " HP");
+            }
+            else if (health + hp > 100)
+            {
+                health = maxHealth;
+            }
+            else
+            {
+                health += hp;
+            }
         }
     }
 }

@@ -22,18 +22,6 @@ namespace TextBasedRPGFirstPlayable
         public static bool playerDead = false;
         #endregion
 
-        public void PlayerTakeDamage(int damage)
-        {
-            if (damage >= 0)
-            {
-                playerHealth -= damage;
-                if (playerHealth <= 0)
-                {
-                    playerDead = true;
-                    gameOver = true;
-                }
-            }
-        }
         public Player(int health) : base(health)
         {
             Console.WriteLine("Player Class Constructed");
