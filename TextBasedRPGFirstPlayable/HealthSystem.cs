@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal class HealthSystem
+    public class HealthSystem
     {
         public int health;
         public int shield;

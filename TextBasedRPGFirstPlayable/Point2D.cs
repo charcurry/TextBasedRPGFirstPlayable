@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal struct Point2D
+    public struct Point2D
     {
         public int x;
         public int y;
+
+        public Point2D(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal abstract class Entity : GameObject
+    public abstract class Entity : GameObject
     {
         public HealthSystem healthSystem;
 
