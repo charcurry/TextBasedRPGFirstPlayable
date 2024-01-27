@@ -20,6 +20,8 @@ namespace TextBasedRPGFirstPlayable
         public bool enemyWasAttacked;
         #endregion
 
+        Player player = Program.player;
+
         public Enemy(int health) : base(health)
         {
             Console.WriteLine("Enemy Class Constructed");
@@ -39,19 +41,19 @@ namespace TextBasedRPGFirstPlayable
             {
                 player.gameOver = true;
             }
-            else if (enemyCursor.x - 1 == cursorx)
+            else if (enemyCursor.x - 1 == player.playerCursor.x)
             {
                 direction = 0;
             }
-            else if (enemyCursor.x + 1 == cursorx)
+            else if (enemyCursor.x + 1 == player.playerCursor.x)
             {
                 direction = 3;
             }
-            else if (enemyCursor.y - 1 == cursory)
+            else if (enemyCursor.y - 1 == player.playerCursor.y)
             {
                 direction = 2;
             }
-            else if (enemyCursor.y + 1 == cursory)
+            else if (enemyCursor.y + 1 == player.playerCursor.y)
             {
                 direction = 1;
             }
@@ -63,44 +65,44 @@ namespace TextBasedRPGFirstPlayable
                         enemyCursor.x--;
                         if (enemyCursor.x < 1) enemyCursor.x = 1;
                         else if (Map.CheckForWall(enemyNextTileLeft, wallTile)) enemyCursor.x++;
-                        else if (enemyCursor.x == cursorx && enemyCursor.y == cursory)
+                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.x++;
-                            cursorx--;
-                            if (Map.CheckForWall(nextTileLeft, wallTile) || cursorx < 1)
+                            player.playerCursor.x--;
+                            if (Map.CheckForWall(nextTileLeft, wallTile) || player.playerCursor.x < 1)
                             {
-                                cursorx++;
+                                player.playerCursor.x++;
                             }
                         }
                         break;
                     case 1:
                         enemyCursor.y++;
-                        if (enemyCursor.y > mapYLength) enemyCursor.y = mapYLength;
+                        if (enemyCursor.y > Map.mapYLength) enemyCursor.y = mapYLength;
                         else if (Map.CheckForWall(enemyNextTileDown, wallTile)) enemyCursor.y--;
-                        else if (enemyCursor.x == cursorx && enemyCursory == cursory)
+                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.y--;
-                            cursory++;
-                            if (Map.CheckForWall(nextTileDown, wallTile) || cursory > mapYLength)
+                            player.playerCursor.y++;
+                            if (Map.CheckForWall(nextTileDown, wallTile) || player.playerCursor.y > mapYLength)
                             {
-                                cursory--;
+                                player.playerCursor.y--;
                             }
                         }
                         break;
                     case 2:
                         enemyCursor.y--;
-                        if (enemyCursory < 1) enemyCursor.y = 1;
+                        if (enemyCursor.y < 1) enemyCursor.y = 1;
                         else if (Map.CheckForWall(enemyNextTileUp, wallTile)) enemyCursor.y++;
-                        else if (enemyCursor.x == cursorx && enemyCursor.y == cursory)
+                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.y++;
-                            cursory--;
-                            if (Map.CheckForWall(nextTileUp, wallTile) || cursory < 1)
+                            player.playerCursor.y--;
+                            if (Map.CheckForWall(nextTileUp, wallTile) || player.playerCursor.y < 1)
                             {
-                                cursory++;
+                                player.playerCursor.y++;
                             }
                         }
                         break;
@@ -108,14 +110,14 @@ namespace TextBasedRPGFirstPlayable
                         enemyCursor.x++;
                         if (enemyCursor.x > mapXLength) enemyCursor.x = mapXLength;
                         else if (Map.CheckForWall(enemyNextTileRight, wallTile)) enemyCursor.x--;
-                        else if (enemyCursor.x == cursorx && enemyCursory == cursory)
+                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.x--;
-                            cursorx++;
-                            if (Map.CheckForWall(nextTileRight, wallTile) || cursorx > mapXLength)
+                            player.playerCursor.x++;
+                            if (Map.CheckForWall(nextTileRight, wallTile) || player.playerCursor.x > mapXLength)
                             {
-                                cursorx--;
+                                player.playerCursor.x--;
                             }
                         }
                         break;

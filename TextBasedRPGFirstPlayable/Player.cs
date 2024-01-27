@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    internal class Player : Entity
+    public class Player : Entity
     {
 
         #region GameOver States

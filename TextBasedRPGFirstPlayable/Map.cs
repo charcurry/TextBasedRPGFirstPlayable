@@ -10,11 +10,11 @@ namespace TextBasedRPGFirstPlayable
     internal class Map
     {
         #region Wall Tile Char
-        static char wallTile = '^';
+        public static char wallTile = '^';
         #endregion
 
         #region Border Offset
-        static int borderOffset = 1;
+        public int borderOffset = 1;
         #endregion
 
         #region Map
@@ -23,8 +23,8 @@ namespace TextBasedRPGFirstPlayable
         #endregion
 
         #region Map Axis Lengths
-        static int mapXLength = mapRows[0].Length;
-        static int mapYLength = mapRows.Length;
+        public static int mapXLength = mapRows[0].Length;
+        public static int mapYLength = mapRows.Length;
         #endregion
 
         public void RenderMap()
