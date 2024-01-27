@@ -64,13 +64,13 @@ namespace TextBasedRPGFirstPlayable
                     case 0:
                         enemyCursor.x--;
                         if (enemyCursor.x < 1) enemyCursor.x = 1;
-                        else if (Map.CheckForWall(enemyNextTileLeft, wallTile)) enemyCursor.x++;
+                        else if (Map.CheckForWall(enemyNextTileLeft, Map.wallTile)) enemyCursor.x++;
                         else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.x++;
                             player.playerCursor.x--;
-                            if (Map.CheckForWall(nextTileLeft, wallTile) || player.playerCursor.x < 1)
+                            if (Map.CheckForWall(nextTileLeft, Map.wallTile) || player.playerCursor.x < 1)
                             {
                                 player.playerCursor.x++;
                             }
@@ -78,14 +78,14 @@ namespace TextBasedRPGFirstPlayable
                         break;
                     case 1:
                         enemyCursor.y++;
-                        if (enemyCursor.y > Map.mapYLength) enemyCursor.y = mapYLength;
-                        else if (Map.CheckForWall(enemyNextTileDown, wallTile)) enemyCursor.y--;
+                        if (enemyCursor.y > Map.mapYLength) enemyCursor.y = Map.mapYLength;
+                        else if (Map.CheckForWall(enemyNextTileDown, Map.wallTile)) enemyCursor.y--;
                         else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.y--;
                             player.playerCursor.y++;
-                            if (Map.CheckForWall(nextTileDown, wallTile) || player.playerCursor.y > mapYLength)
+                            if (Map.CheckForWall(nextTileDown, Map.wallTile) || player.playerCursor.y > Map.mapYLength)
                             {
                                 player.playerCursor.y--;
                             }
@@ -94,13 +94,13 @@ namespace TextBasedRPGFirstPlayable
                     case 2:
                         enemyCursor.y--;
                         if (enemyCursor.y < 1) enemyCursor.y = 1;
-                        else if (Map.CheckForWall(enemyNextTileUp, wallTile)) enemyCursor.y++;
+                        else if (Map.CheckForWall(enemyNextTileUp, Map.wallTile)) enemyCursor.y++;
                         else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.y++;
                             player.playerCursor.y--;
-                            if (Map.CheckForWall(nextTileUp, wallTile) || player.playerCursor.y < 1)
+                            if (Map.CheckForWall(nextTileUp, Map.wallTile) || player.playerCursor.y < 1)
                             {
                                 player.playerCursor.y++;
                             }
@@ -108,14 +108,14 @@ namespace TextBasedRPGFirstPlayable
                         break;
                     case 3:
                         enemyCursor.x++;
-                        if (enemyCursor.x > mapXLength) enemyCursor.x = mapXLength;
-                        else if (Map.CheckForWall(enemyNextTileRight, wallTile)) enemyCursor.x--;
+                        if (enemyCursor.x > Map.mapXLength) enemyCursor.x = Map.mapXLength;
+                        else if (Map.CheckForWall(enemyNextTileRight, Map.wallTile)) enemyCursor.x--;
                         else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
                         {
                             PlayerTakeDamage(1);
                             enemyCursor.x--;
                             player.playerCursor.x++;
-                            if (Map.CheckForWall(nextTileRight, wallTile) || player.playerCursor.x > mapXLength)
+                            if (Map.CheckForWall(nextTileRight, Map.wallTile) || player.playerCursor.x > Map.mapXLength)
                             {
                                 player.playerCursor.x--;
                             }
