@@ -20,8 +20,8 @@ namespace TextBasedRPGFirstPlayable
         public bool enemyWasAttacked;
         #endregion
 
-        Player enemyPlayer;
-        Map enemyMap;
+        readonly Player enemyPlayer;
+        readonly Map enemyMap;
 
         public Enemy(Player player, Map map, int health) : base(health)
         {

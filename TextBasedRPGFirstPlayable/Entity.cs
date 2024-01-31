@@ -6,9 +6,22 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPGFirstPlayable
 {
-    public abstract class Entity : GameObject
+    abstract class Entity : GameObject
     {
         public HealthSystem healthSystem;
+
+        public void Move(Map map, Point2D startPos, Point2D endPos)
+        {
+            if (endPos.y < 0 || endPos.x < 0 || endPos.y >= map.mapYLength || endPos.x >= map.mapXLength)
+            {
+                return;
+            }
+        }
+
+        public void Attack(Entity target)
+        {
+            target.healthSystem.TakeDamage(1);
+        }
 
         public Entity(int health)
         {

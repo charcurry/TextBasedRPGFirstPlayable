@@ -28,8 +28,8 @@ namespace TextBasedRPGFirstPlayable
             Console.WriteLine("@");
         }
 
-        Map playerMap;
-        Enemy playerEnemy;
+        readonly Map playerMap;
+        readonly Enemy playerEnemy;
 
         public void PlayerUpdate()
         {

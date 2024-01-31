@@ -41,8 +41,8 @@ namespace TextBasedRPGFirstPlayable
         public char enemyNextTileRight;
         #endregion
 
-        Player mapPlayer;
-        Enemy mapEnemy;
+        readonly Player mapPlayer;
+        readonly Enemy mapEnemy;
 
         public Map(Enemy enemy, Player player)
         {
