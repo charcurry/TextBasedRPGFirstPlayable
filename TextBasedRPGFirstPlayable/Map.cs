@@ -10,7 +10,7 @@ namespace TextBasedRPGFirstPlayable
     internal class Map
     {
         #region Wall Tile Char
-        public static char wallTile = '^';
+        public char wallTile = '^';
         #endregion
 
         #region Border Offset
@@ -23,9 +23,33 @@ namespace TextBasedRPGFirstPlayable
         #endregion
 
         #region Map Axis Lengths
-        public static int mapXLength = mapRows[0].Length;
-        public static int mapYLength = mapRows.Length;
+        public int mapXLength = mapRows[0].Length;
+        public int mapYLength = mapRows.Length;
         #endregion
+
+        #region Player Surrounding Tiles Check
+        public char nextTileUp;
+        public char nextTileDown;
+        public char nextTileLeft;
+        public char nextTileRight;
+        #endregion
+
+        #region Enemy Surrounding Tiles Check
+        public char enemyNextTileUp;
+        public char enemyNextTileDown;
+        public char enemyNextTileLeft;
+        public char enemyNextTileRight;
+        #endregion
+
+        Player mapPlayer;
+        Enemy mapEnemy;
+
+        public Map(Enemy enemy, Player player)
+        {
+            mapPlayer = player;
+            mapEnemy = enemy;
+            Console.WriteLine("Player Class Constructed");
+        }
 
         public void RenderMap()
         {
@@ -47,37 +71,37 @@ namespace TextBasedRPGFirstPlayable
                 {
                     char tile = mapRow[x];
                     Console.Write(tile);
-                    if (cursory - borderOffset > 0)
+                    if (mapPlayer.playerCursor.y - borderOffset > 0)
                     {
-                        nextTileUp = mapRows[cursory - 1 - borderOffset][cursorx - borderOffset];
+                        nextTileUp = mapRows[mapPlayer.playerCursor.y - 1 - borderOffset][mapPlayer.playerCursor.x - borderOffset];
                     }
-                    if (mapRows.Length - 1 > cursory - borderOffset)
+                    if (mapRows.Length - 1 > mapPlayer.playerCursor.y - borderOffset)
                     {
-                        nextTileDown = mapRows[cursory + 1 - borderOffset][cursorx - borderOffset];
+                        nextTileDown = mapRows[mapPlayer.playerCursor.y + 1 - borderOffset][mapPlayer.playerCursor.x - borderOffset];
                     }
-                    if (cursorx - borderOffset > 0)
+                    if (mapPlayer.playerCursor.x - borderOffset > 0)
                     {
-                        nextTileLeft = mapRows[cursory - borderOffset][cursorx - 1 - borderOffset];
+                        nextTileLeft = mapRows[mapPlayer.playerCursor.y - borderOffset][mapPlayer.playerCursor.x - 1 - borderOffset];
                     }
-                    if (cursorx - borderOffset < mapRow.Length - 1)
+                    if (mapPlayer.playerCursor.x - borderOffset < mapRow.Length - 1)
                     {
-                        nextTileRight = mapRows[cursory - borderOffset][cursorx + 1 - borderOffset];
+                        nextTileRight = mapRows[mapPlayer.playerCursor.y - borderOffset][mapPlayer.playerCursor.x + 1 - borderOffset];
                     }
-                    if (enemyCursory - borderOffset > 0)
+                    if (mapEnemy.enemyCursor.y - borderOffset > 0)
                     {
-                        enemyNextTileUp = mapRows[enemyCursory - 1 - borderOffset][enemyCursorx - borderOffset];
+                        enemyNextTileUp = mapRows[mapEnemy.enemyCursor.y - 1 - borderOffset][mapEnemy.enemyCursor.x - borderOffset];
                     }
-                    if (mapRows.Length - 1 > enemyCursory - borderOffset)
+                    if (mapRows.Length - 1 > mapEnemy.enemyCursor.y - borderOffset)
                     {
-                        enemyNextTileDown = mapRows[enemyCursory + 1 - borderOffset][enemyCursorx - borderOffset];
+                        enemyNextTileDown = mapRows[mapEnemy.enemyCursor.y + 1 - borderOffset][mapEnemy.enemyCursor.x - borderOffset];
                     }
-                    if (enemyCursorx - borderOffset > 0)
+                    if (mapEnemy.enemyCursor.x - borderOffset > 0)
                     {
-                        enemyNextTileLeft = mapRows[enemyCursory - borderOffset][enemyCursorx - 1 - borderOffset];
+                        enemyNextTileLeft = mapRows[mapEnemy.enemyCursor.y - borderOffset][mapEnemy.enemyCursor.x - 1 - borderOffset];
                     }
-                    if (enemyCursorx - borderOffset < mapRow.Length - 1)
+                    if (mapEnemy.enemyCursor.x - borderOffset < mapRow.Length - 1)
                     {
-                        enemyNextTileRight = mapRows[enemyCursory - borderOffset][enemyCursorx + 1 - borderOffset];
+                        enemyNextTileRight = mapRows[mapEnemy.enemyCursor.y - borderOffset][mapEnemy.enemyCursor.x + 1 - borderOffset];
                     }
                 }
                 Console.Write('|');

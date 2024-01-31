@@ -8,13 +8,13 @@ namespace TextBasedRPGFirstPlayable
 {
     internal class Program
     {
-        public static Player player = new Player(100);
+        static Map map = new Map(enemy, player);
+        static Enemy enemy = new Enemy(player, map, 50);
+        static Player player = new Player(enemy, map, 100);
         static void Main(string[] args)
         {
 
-            Map map = new Map();
             
-            Enemy enemy = new Enemy(50);
             Console.CursorVisible = false;
             map.RenderMap();
             map.ShowHUD(player, enemy);

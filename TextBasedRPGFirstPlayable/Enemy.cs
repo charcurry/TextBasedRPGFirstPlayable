@@ -20,10 +20,13 @@ namespace TextBasedRPGFirstPlayable
         public bool enemyWasAttacked;
         #endregion
 
-        Player player = Program.player;
+        Player enemyPlayer;
+        Map enemyMap;
 
-        public Enemy(int health) : base(health)
+        public Enemy(Player player, Map map, int health) : base(health)
         {
+            enemyPlayer = player;
+            enemyMap = map;
             Console.WriteLine("Enemy Class Constructed");
         }
 
@@ -37,23 +40,23 @@ namespace TextBasedRPGFirstPlayable
         {
             Random random = new Random();
             int direction = random.Next(0, 4);
-            if (player.playerDead)
+            if (enemyPlayer.playerDead)
             {
-                player.gameOver = true;
+                enemyPlayer.gameOver = true;
             }
-            else if (enemyCursor.x - 1 == player.playerCursor.x)
+            else if (enemyCursor.x - 1 == enemyPlayer.playerCursor.x)
             {
                 direction = 0;
             }
-            else if (enemyCursor.x + 1 == player.playerCursor.x)
+            else if (enemyCursor.x + 1 == enemyPlayer.playerCursor.x)
             {
                 direction = 3;
             }
-            else if (enemyCursor.y - 1 == player.playerCursor.y)
+            else if (enemyCursor.y - 1 == enemyPlayer.playerCursor.y)
             {
                 direction = 2;
             }
-            else if (enemyCursor.y + 1 == player.playerCursor.y)
+            else if (enemyCursor.y + 1 == enemyPlayer.playerCursor.y)
             {
                 direction = 1;
             }
@@ -64,60 +67,60 @@ namespace TextBasedRPGFirstPlayable
                     case 0:
                         enemyCursor.x--;
                         if (enemyCursor.x < 1) enemyCursor.x = 1;
-                        else if (Map.CheckForWall(enemyNextTileLeft, Map.wallTile)) enemyCursor.x++;
-                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
+                        else if (enemyMap.CheckForWall(enemyMap.enemyNextTileLeft, enemyMap.wallTile)) enemyCursor.x++;
+                        else if (enemyCursor.x == enemyPlayer.playerCursor.x && enemyCursor.y == enemyPlayer.playerCursor.y)
                         {
-                            PlayerTakeDamage(1);
+                            healthSystem.TakeDamage(1);
                             enemyCursor.x++;
-                            player.playerCursor.x--;
-                            if (Map.CheckForWall(nextTileLeft, Map.wallTile) || player.playerCursor.x < 1)
+                            enemyPlayer.playerCursor.x--;
+                            if (enemyMap.CheckForWall(enemyMap.nextTileLeft, enemyMap.wallTile) || enemyPlayer.playerCursor.x < 1)
                             {
-                                player.playerCursor.x++;
+                                enemyPlayer.playerCursor.x++;
                             }
                         }
                         break;
                     case 1:
                         enemyCursor.y++;
-                        if (enemyCursor.y > Map.mapYLength) enemyCursor.y = Map.mapYLength;
-                        else if (Map.CheckForWall(enemyNextTileDown, Map.wallTile)) enemyCursor.y--;
-                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
+                        if (enemyCursor.y > enemyMap.mapYLength) enemyCursor.y = enemyMap.mapYLength;
+                        else if (enemyMap.CheckForWall(enemyMap.enemyNextTileDown, enemyMap.wallTile)) enemyCursor.y--;
+                        else if (enemyCursor.x == enemyPlayer.playerCursor.x && enemyCursor.y == enemyPlayer.playerCursor.y)
                         {
-                            PlayerTakeDamage(1);
+                            healthSystem.TakeDamage(1);
                             enemyCursor.y--;
-                            player.playerCursor.y++;
-                            if (Map.CheckForWall(nextTileDown, Map.wallTile) || player.playerCursor.y > Map.mapYLength)
+                            enemyPlayer.playerCursor.y++;
+                            if (enemyMap.CheckForWall(enemyMap.nextTileDown, enemyMap.wallTile) || enemyPlayer.playerCursor.y > enemyMap.mapYLength)
                             {
-                                player.playerCursor.y--;
+                                enemyPlayer.playerCursor.y--;
                             }
                         }
                         break;
                     case 2:
                         enemyCursor.y--;
                         if (enemyCursor.y < 1) enemyCursor.y = 1;
-                        else if (Map.CheckForWall(enemyNextTileUp, Map.wallTile)) enemyCursor.y++;
-                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
+                        else if (enemyMap.CheckForWall(enemyMap.enemyNextTileUp, enemyMap.wallTile)) enemyCursor.y++;
+                        else if (enemyCursor.x == enemyPlayer.playerCursor.x && enemyCursor.y == enemyPlayer.playerCursor.y)
                         {
-                            PlayerTakeDamage(1);
+                            healthSystem.TakeDamage(1);
                             enemyCursor.y++;
-                            player.playerCursor.y--;
-                            if (Map.CheckForWall(nextTileUp, Map.wallTile) || player.playerCursor.y < 1)
+                            enemyPlayer.playerCursor.y--;
+                            if (enemyMap.CheckForWall(enemyMap.nextTileUp, enemyMap.wallTile) || enemyPlayer.playerCursor.y < 1)
                             {
-                                player.playerCursor.y++;
+                                enemyPlayer.playerCursor.y++;
                             }
                         }
                         break;
                     case 3:
                         enemyCursor.x++;
-                        if (enemyCursor.x > Map.mapXLength) enemyCursor.x = Map.mapXLength;
-                        else if (Map.CheckForWall(enemyNextTileRight, Map.wallTile)) enemyCursor.x--;
-                        else if (enemyCursor.x == player.playerCursor.x && enemyCursor.y == player.playerCursor.y)
+                        if (enemyCursor.x > enemyMap.mapXLength) enemyCursor.x = enemyMap.mapXLength;
+                        else if (enemyMap.CheckForWall(enemyMap.enemyNextTileRight, enemyMap.wallTile)) enemyCursor.x--;
+                        else if (enemyCursor.x == enemyPlayer.playerCursor.x && enemyCursor.y == enemyPlayer.playerCursor.y)
                         {
-                            PlayerTakeDamage(1);
+                            healthSystem.TakeDamage(1);
                             enemyCursor.x--;
-                            player.playerCursor.x++;
-                            if (Map.CheckForWall(nextTileRight, Map.wallTile) || player.playerCursor.x > Map.mapXLength)
+                            enemyPlayer.playerCursor.x++;
+                            if (enemyMap.CheckForWall(enemyMap.nextTileRight, enemyMap.wallTile) || enemyPlayer.playerCursor.x > enemyMap.mapXLength)
                             {
-                                player.playerCursor.x--;
+                                enemyPlayer.playerCursor.x--;
                             }
                         }
                         break;
