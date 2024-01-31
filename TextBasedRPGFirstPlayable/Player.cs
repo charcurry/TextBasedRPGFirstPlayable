@@ -18,18 +18,13 @@ namespace TextBasedRPGFirstPlayable
         public bool playerDead = false;
         #endregion
 
-        #region Player Cursor Positions
-        public Point2D playerCursor = new Point2D(10, 10);
-        #endregion
+        readonly Map map;
 
-        public void PlayerDraw(int x, int y)
+        public void PlayerDraw()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(this.position.x, this.position.y);
             Console.WriteLine("@");
         }
-
-        readonly Map playerMap;
-        readonly Enemy playerEnemy;
 
         public void PlayerUpdate()
         {
@@ -37,76 +32,46 @@ namespace TextBasedRPGFirstPlayable
 
             if (input.Key == ConsoleKey.W)
             {
-                playerCursor.y--;
-                if (playerCursor.y < 1) playerCursor.y = 1;
-                else if (playerMap.CheckForWall(playerMap.nextTileUp, playerMap.wallTile)) playerCursor.y++;
-                else if (playerEnemy.enemyCursor.x == playerCursor.x && playerEnemy.enemyCursor.y == playerCursor.y)
-                {
-                    healthSystem.TakeDamage(1);
-                    playerCursor.y++;
-                    playerEnemy.enemyCursor.y--;
-                    if (playerMap.CheckForWall(playerMap.enemyNextTileUp, playerMap.wallTile) || playerEnemy.enemyCursor.y < 1) playerEnemy.enemyCursor.y++;
-                    playerEnemy.enemyWasAttacked = true;
-                }
+                int newY = position.y - 1;
+                Point2D newPosition = new Point2D(position.x, newY);
+                Move(map, position, newPosition);
             }
             else if (input.Key == ConsoleKey.A)
             {
-                playerCursor.x--;
-                if (playerCursor.x < 1) playerCursor.x = 1;
-                else if (playerMap.CheckForWall(playerMap.nextTileLeft, playerMap.wallTile)) playerCursor.x++;
-                else if (playerEnemy.enemyCursor.x == playerCursor.x && playerEnemy.enemyCursor.y == playerCursor.y)
-                {
-                    healthSystem.TakeDamage(1);
-                    playerCursor.x++;
-                    playerEnemy.enemyCursor.x--;
-                    if (playerMap.CheckForWall(playerMap.enemyNextTileLeft, playerMap.wallTile) || playerEnemy.enemyCursor.x < 1) playerEnemy.enemyCursor.x++;
-                    playerEnemy.enemyWasAttacked = true;
-                }
+                int newX = position.x - 1;
+                Point2D newPosition = new Point2D(newX, position.y);
+                Move(map, position, newPosition);
             }
             else if (input.Key == ConsoleKey.D)
             {
-                playerCursor.x++;
-                if (playerCursor.x > playerMap.mapXLength) playerCursor.x = playerMap.mapXLength;
-                else if (playerMap.CheckForWall(playerMap.nextTileRight, playerMap.wallTile)) playerCursor.x--;
-                else if (playerEnemy.enemyCursor.x == playerCursor.x && playerEnemy.enemyCursor.y == playerCursor.y)
-                {
-                    healthSystem.TakeDamage(1);
-                    playerCursor.x--;
-                    playerEnemy.enemyCursor.x++;
-                    if (playerMap.CheckForWall(playerMap.enemyNextTileRight, playerMap.wallTile) || playerEnemy.enemyCursor.x > playerMap.mapXLength) playerEnemy.enemyCursor.x--;
-                    playerEnemy.enemyWasAttacked = true;
-                }
+                int newX = position.x + 1;
+                Point2D newPosition = new Point2D(newX, position.y);
+                Move(map, position, newPosition);
             }
             else if (input.Key == ConsoleKey.S)
             {
-                playerCursor.y++;
-                if (playerCursor.y > playerMap.mapYLength) playerCursor.y = playerMap.mapYLength;
-                else if (playerMap.CheckForWall(playerMap.nextTileDown, playerMap.wallTile)) playerCursor.y--;
-                else if (playerEnemy.enemyCursor.x == playerCursor.x && playerEnemy.enemyCursor.y == playerCursor.y)
-                {
-                    healthSystem.TakeDamage(1);
-                    playerCursor.y--;
-                    playerEnemy.enemyCursor.y++;
-                    if (playerMap.CheckForWall(playerMap.enemyNextTileDown, playerMap.wallTile) || playerEnemy.enemyCursor.y > playerMap.mapYLength) playerEnemy.enemyCursor.y--;
-                    playerEnemy.enemyWasAttacked = true;
-                }
+                int newY = position.y + 1;
+                Point2D newPosition = new Point2D(position.x, newY);
+                Move(map, position, newPosition);
             }
             else if (input.Key == ConsoleKey.Escape)
             {
                 gameOver = true;
             }
 
-            if (playerDead)
+            if (this.healthSystem.isDead)
             {
+                playerDead = true;
                 gameOver = true;
             }
         }
 
-        public Player(Enemy enemy, Map map, int health) : base(health)
+        public Player(Map map, int health) : base(health)
         {
-            playerEnemy = enemy;
-            playerMap = map;
-            Console.WriteLine("Player Class Constructed");
+            this.map = map;
+            this.position.x = 1;
+            this.position.y = 1;
+            //Console.WriteLine("Player Class Constructed");
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace TextBasedRPGFirstPlayable
 {
@@ -19,7 +21,7 @@ namespace TextBasedRPGFirstPlayable
 
         #region Map
         static string path = @"map.txt";
-        static string[] mapRows = File.ReadAllLines(path);
+        static readonly string[] mapRows = File.ReadAllLines(path);
         #endregion
 
         #region Map Axis Lengths
@@ -41,14 +43,52 @@ namespace TextBasedRPGFirstPlayable
         public char enemyNextTileRight;
         #endregion
 
-        readonly Player mapPlayer;
-        readonly Enemy mapEnemy;
+        private List<Entity> entities = new List<Entity>();
 
-        public Map(Enemy enemy, Player player)
+        public Map(List<Entity> initialEntities)
         {
-            mapPlayer = player;
-            mapEnemy = enemy;
-            Console.WriteLine("Player Class Constructed");
+            entities.AddRange(initialEntities);
+        }
+
+        public void AddEntity(Entity entity, Point2D position)
+        {
+            entities.Add(entity);
+            entity.position = position;
+        }
+
+        public void RemoveEntity(Point2D position)
+        {
+            foreach (var entity in GetEntities())
+            {
+                if (entity.position.y == position.y && entity.position.x == position.x)
+                {
+                    entities.Remove(entity);
+                }
+            }
+        }
+
+        public Entity GetEntity(Point2D position)
+        {
+            foreach (var entity in GetEntities())
+            {
+                if (entity.position.y == position.y && entity.position.x == position.x)
+                {
+                    return entity;
+                }
+            }
+            return null;
+        }
+
+        public List<Entity> GetEntities()
+        {
+            return entities;
+        }
+
+        public Map()
+        {
+            //mapPlayer = player;
+            //mapEnemy = enemy;
+            //Console.WriteLine("Player Class Constructed");
         }
 
         public void RenderMap()
@@ -56,64 +96,38 @@ namespace TextBasedRPGFirstPlayable
             Console.SetCursorPosition(0, 0);
 
 
-            Console.Write('+');
+            //Console.Write('+');
             for (int i = 0; i < mapXLength; i++)
             {
-                Console.Write('-');
+                //Console.Write('-');
             }
-            Console.Write('+');
-            Console.WriteLine();
+            //Console.Write('+');
+            //Console.WriteLine();
             for (int y = 0; y < mapRows.Length; y++)
             {
-                Console.Write('|');
+                //Console.Write('|');
                 string mapRow = mapRows[y];
                 for (int x = 0; x < mapRow.Length; x++)
                 {
                     char tile = mapRow[x];
                     Console.Write(tile);
-                    if (mapPlayer.playerCursor.y - borderOffset > 0)
-                    {
-                        nextTileUp = mapRows[mapPlayer.playerCursor.y - 1 - borderOffset][mapPlayer.playerCursor.x - borderOffset];
-                    }
-                    if (mapRows.Length - 1 > mapPlayer.playerCursor.y - borderOffset)
-                    {
-                        nextTileDown = mapRows[mapPlayer.playerCursor.y + 1 - borderOffset][mapPlayer.playerCursor.x - borderOffset];
-                    }
-                    if (mapPlayer.playerCursor.x - borderOffset > 0)
-                    {
-                        nextTileLeft = mapRows[mapPlayer.playerCursor.y - borderOffset][mapPlayer.playerCursor.x - 1 - borderOffset];
-                    }
-                    if (mapPlayer.playerCursor.x - borderOffset < mapRow.Length - 1)
-                    {
-                        nextTileRight = mapRows[mapPlayer.playerCursor.y - borderOffset][mapPlayer.playerCursor.x + 1 - borderOffset];
-                    }
-                    if (mapEnemy.enemyCursor.y - borderOffset > 0)
-                    {
-                        enemyNextTileUp = mapRows[mapEnemy.enemyCursor.y - 1 - borderOffset][mapEnemy.enemyCursor.x - borderOffset];
-                    }
-                    if (mapRows.Length - 1 > mapEnemy.enemyCursor.y - borderOffset)
-                    {
-                        enemyNextTileDown = mapRows[mapEnemy.enemyCursor.y + 1 - borderOffset][mapEnemy.enemyCursor.x - borderOffset];
-                    }
-                    if (mapEnemy.enemyCursor.x - borderOffset > 0)
-                    {
-                        enemyNextTileLeft = mapRows[mapEnemy.enemyCursor.y - borderOffset][mapEnemy.enemyCursor.x - 1 - borderOffset];
-                    }
-                    if (mapEnemy.enemyCursor.x - borderOffset < mapRow.Length - 1)
-                    {
-                        enemyNextTileRight = mapRows[mapEnemy.enemyCursor.y - borderOffset][mapEnemy.enemyCursor.x + 1 - borderOffset];
-                    }
+
                 }
-                Console.Write('|');
+                //Console.Write('|');
                 Console.WriteLine();
             }
-            Console.Write('+');
+            //Console.Write('+');
             for (int i = 0; i < mapXLength; i++)
             {
-                Console.Write('-');
+                //Console.Write('-');
             }
-            Console.Write('+');
+            //Console.Write('+');
             Console.WriteLine();
+        }
+
+        public char GetTile(Point2D coords)
+        {
+            return mapRows[coords.y][coords.x];
         }
 
         static void RenderLegend()
@@ -131,18 +145,6 @@ namespace TextBasedRPGFirstPlayable
             Console.WriteLine("Player Health: " + player.healthSystem.health);
             Console.WriteLine("Enemy Health: " + enemy.healthSystem.health);
             Console.WriteLine();
-        }
-
-        public bool CheckForWall(char tile, char wallTile)
-        {
-            if (tile == wallTile)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public void ShowHUD(Player player, Enemy enemy)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,19 @@ namespace TextBasedRPGFirstPlayable
             {
                 return;
             }
+            else if (map.GetTile(endPos) == map.wallTile)
+            {
+                return;
+            }
+            else if (map.GetEntity(endPos) != null)
+            {
+                Attack(map.GetEntity(endPos));
+            }
+            else
+            {
+                map.AddEntity(map.GetEntity(startPos), endPos);
+                map.RemoveEntity(startPos);
+            }
         }
 
         public void Attack(Entity target)
@@ -25,8 +39,7 @@ namespace TextBasedRPGFirstPlayable
 
         public Entity(int health)
         {
-            Console.WriteLine("Entity Class Constructed");
-
+            //Console.WriteLine("Entity Class Constructed");
             healthSystem = new HealthSystem(health);
         }
     }

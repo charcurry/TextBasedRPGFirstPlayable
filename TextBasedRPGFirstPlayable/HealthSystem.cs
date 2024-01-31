@@ -9,8 +9,8 @@ namespace TextBasedRPGFirstPlayable
     public class HealthSystem
     {
         public int health;
-        public int shield;
         public int maxHealth;
+        public bool isDead;
 
         public HealthSystem(int initHealth)
         {
@@ -22,30 +22,13 @@ namespace TextBasedRPGFirstPlayable
             {
                 Console.WriteLine("Error: Entity Cannot Take " + damage + " Damage");
             }
-            else if (health - damage <= 0 && shield == 0)
+            else if (health - damage <= 0)
             {
                 health = 0;
-                shield = 0;
-            }
-            else if (health + shield - damage <= 0)
-            {
-                health = 0;
-                shield = 0;
-            }
-            else if (shield - damage <= 0)
-            {
-
-                health -= (damage - shield);
-                shield = 0;
-            }
-            else if (shield > 0)
-            {
-                shield -= damage;
-
+                isDead = true;
             }
             else if (health > 0)
             {
-
                 health -= damage;
             }
         }
