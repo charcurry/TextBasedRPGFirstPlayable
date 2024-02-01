@@ -15,19 +15,13 @@ namespace TextBasedRPGFirstPlayable
 
         #endregion
 
-        #region Enemy Death
-        public bool enemyDead = false;
-        #endregion
-
         #region Enemy was Attacked Check
         public bool enemyWasAttacked;
         #endregion
 
         readonly Map map;
-        readonly Player player;
-        public Enemy(Player player, Map map, int health) : base(health)
+        public Enemy(Map map, int health) : base(health)
         {
-            this.player = player;
             this.map = map;
             this.position.y = 10;
             this.position.x = 16;
@@ -42,30 +36,26 @@ namespace TextBasedRPGFirstPlayable
 
         public void EnemyUpdate()
         {
-            if (healthSystem.health <= 0)
-            {
-                player.gameOver = true;
-            }
             Random random = new Random();
             int direction = random.Next(0, 4);
 
-            if (position.x - 1 == player.position.x)
+            if (position.x - 1 == map.GetPlayer().position.x)
             {
                 direction = 0;
             }
-            else if (position.x + 1 == player.position.x)
+            else if (position.x + 1 == map.GetPlayer().position.x)
             {
                 direction = 3;
             }
-            else if (position.y - 1 == player.position.y)
+            else if (position.y - 1 == map.GetPlayer().position.y)
             {
                 direction = 2;
             }
-            else if (position.y + 1 == player.position.y)
+            else if (position.y + 1 == map.GetPlayer().position.y)
             {
                 direction = 1;
             }
-            if (!enemyDead)
+            if (!map.GetPlayer().gaveDamage)
             {
                 switch (direction)
                 {

@@ -11,6 +11,7 @@ namespace TextBasedRPGFirstPlayable
     {
         public HealthSystem healthSystem;
         public int damageNumber = 1;
+        public bool gaveDamage;
 
         public void Move(Map map, Point2D startPos, Point2D endPos)
         {
@@ -38,6 +39,7 @@ namespace TextBasedRPGFirstPlayable
             //Random random = new Random();
             //int damage = random.Next(0, 2);
             target.healthSystem.TakeDamage(damageNumber);
+            gaveDamage = true;
         }
 
         public Entity(int health)

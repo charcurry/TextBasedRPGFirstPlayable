@@ -79,6 +79,30 @@ namespace TextBasedRPGFirstPlayable
             return null;
         }
 
+        public Player GetPlayer()
+        {
+            foreach (var entity in GetEntities())
+            {
+                if (entity is Player player)
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
+
+        public Enemy GetEnemy()
+        {
+            foreach (var entity in GetEntities())
+            {
+                if (entity is Enemy enemy)
+                {
+                    return enemy;
+                }
+            }
+            return null;
+        }
+
         public List<Entity> GetEntities()
         {
             return entities;

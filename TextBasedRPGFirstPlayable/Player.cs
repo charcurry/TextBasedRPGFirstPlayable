@@ -19,6 +19,7 @@ namespace TextBasedRPGFirstPlayable
         #endregion
 
         readonly Map map;
+        public Enemy enemy;
 
         public void PlayerDraw()
         {
@@ -33,26 +34,50 @@ namespace TextBasedRPGFirstPlayable
             if (input.Key == ConsoleKey.W)
             {
                 int newY = position.y - 1;
+                int newEnemyY = enemy.position.y - 1;
                 Point2D newPosition = new Point2D(position.x, newY);
+                Point2D newEnemyPosition = new Point2D(enemy.position.x, newEnemyY);
                 Move(map, position, newPosition);
+                if (gaveDamage)
+                {
+                    enemy.Move(map, enemy.position, newEnemyPosition);
+                }
             }
             else if (input.Key == ConsoleKey.A)
             {
                 int newX = position.x - 1;
+                int newEnemyX = enemy.position.x - 1;
                 Point2D newPosition = new Point2D(newX, position.y);
+                Point2D newEnemyPosition = new Point2D(newEnemyX, enemy.position.y);
                 Move(map, position, newPosition);
+                if (gaveDamage)
+                {
+                    enemy.Move(map, enemy.position, newEnemyPosition);
+                }
             }
             else if (input.Key == ConsoleKey.D)
             {
                 int newX = position.x + 1;
+                int newEnemyX = enemy.position.x + 1;
                 Point2D newPosition = new Point2D(newX, position.y);
+                Point2D newEnemyPosition = new Point2D(newEnemyX, enemy.position.y);
                 Move(map, position, newPosition);
+                if (gaveDamage)
+                {
+                    enemy.Move(map, enemy.position, newEnemyPosition);
+                }
             }
             else if (input.Key == ConsoleKey.S)
             {
                 int newY = position.y + 1;
+                int newEnemyY = enemy.position.y + 1;
                 Point2D newPosition = new Point2D(position.x, newY);
+                Point2D newEnemyPosition = new Point2D(enemy.position.x, newEnemyY);
                 Move(map, position, newPosition);
+                if (gaveDamage)
+                {
+                    enemy.Move(map, enemy.position, newEnemyPosition);
+                }
             }
             else if (input.Key == ConsoleKey.Escape)
             {
@@ -60,8 +85,9 @@ namespace TextBasedRPGFirstPlayable
             }
         }
 
-        public Player(Map map, int health) : base(health)
+        public Player(Enemy enemy, Map map, int health) : base(health)
         {
+            this.enemy = enemy;
             this.map = map;
             this.position.x = 3;
             this.position.y = 3;
