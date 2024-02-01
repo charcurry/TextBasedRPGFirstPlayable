@@ -10,6 +10,7 @@ namespace TextBasedRPGFirstPlayable
     abstract class Entity : GameObject
     {
         public HealthSystem healthSystem;
+        public int damageNumber = 1;
 
         public void Move(Map map, Point2D startPos, Point2D endPos)
         {
@@ -34,7 +35,9 @@ namespace TextBasedRPGFirstPlayable
 
         public void Attack(Entity target)
         {
-            target.healthSystem.TakeDamage(1);
+            //Random random = new Random();
+            //int damage = random.Next(0, 2);
+            target.healthSystem.TakeDamage(damageNumber);
         }
 
         public Entity(int health)

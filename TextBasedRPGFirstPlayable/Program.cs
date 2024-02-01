@@ -10,8 +10,8 @@ namespace TextBasedRPGFirstPlayable
     internal class Program
     {
         static Map map = new Map();
-        static Enemy enemy = new Enemy(map, 50);
-        static Player player = new Player(map, 100);
+        static Player player = new Player(map, 10);
+        static Enemy enemy = new Enemy(player, map, 10);
 
         static void Main(string[] args)
         {
@@ -23,6 +23,7 @@ namespace TextBasedRPGFirstPlayable
             map.ShowHUD(player, enemy);
             while (!player.gameOver)
             {
+                Debug.WriteLine(player.gameOver);
                 if (!player.healthSystem.isDead)
                 {
                     player.PlayerDraw();
@@ -42,6 +43,16 @@ namespace TextBasedRPGFirstPlayable
                         enemy.EnemyUpdate();
                     }
                     enemy.enemyWasAttacked = false;
+                }
+                if (player.healthSystem.isDead)
+                {
+                    player.gameOver = true;
+                    player.playerDead = true;
+                }
+                else if (enemy.healthSystem.isDead)
+                {
+                    player.gameOver = true;
+                    player.playerVictory = true;
                 }
                 map.RenderMap();
                 map.ShowHUD(player, enemy);

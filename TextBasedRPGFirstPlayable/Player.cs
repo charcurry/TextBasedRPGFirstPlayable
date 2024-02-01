@@ -58,19 +58,13 @@ namespace TextBasedRPGFirstPlayable
             {
                 gameOver = true;
             }
-
-            if (this.healthSystem.isDead)
-            {
-                playerDead = true;
-                gameOver = true;
-            }
         }
 
         public Player(Map map, int health) : base(health)
         {
             this.map = map;
-            this.position.x = 1;
-            this.position.y = 1;
+            this.position.x = 3;
+            this.position.y = 3;
             //Console.WriteLine("Player Class Constructed");
         }
     }
