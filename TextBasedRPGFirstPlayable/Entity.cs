@@ -9,13 +9,19 @@ namespace TextBasedRPGFirstPlayable
 {
     abstract class Entity : GameObject
     {
+        #region Variables
         public HealthSystem healthSystem;
+
         public int damageNumber = 1;
+
         public bool gaveDamage;
+
+        public int moveSpeed = 1;
+        #endregion
 
         public void Move(Map map, Point2D startPos, Point2D endPos)
         {
-            if (endPos.y < 0 || endPos.x < 0 || endPos.y >= map.mapYLength || endPos.x >= map.mapXLength)
+            if (endPos.y < 0 + map.borderOffset || endPos.x < 0 + map.borderOffset || endPos.y >= map.mapYLength + map.borderOffset || endPos.x >= map.mapXLength + map.borderOffset)
             {
                 return;
             }
@@ -42,10 +48,12 @@ namespace TextBasedRPGFirstPlayable
             gaveDamage = true;
         }
 
+        #region Constructor
         public Entity(int health)
         {
-            //Console.WriteLine("Entity Class Constructed");
+            Debug.WriteLine("Entity Class Constructed");
             healthSystem = new HealthSystem(health);
         }
+        #endregion
     }
 }

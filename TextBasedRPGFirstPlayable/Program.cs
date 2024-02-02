@@ -9,21 +9,24 @@ namespace TextBasedRPGFirstPlayable
 {
     internal class Program
     {
+        #region Instantiation
         static Map map = new Map();
         static Enemy enemy = new Enemy(map, 10);
         static Player player = new Player(enemy, map, 10);
+        #endregion
 
         static void Main(string[] args)
         {
+
             map.AddEntity(player, player.position);
             map.AddEntity(enemy, enemy.position);
             map.GetEntities();
             Console.CursorVisible = false;
             map.RenderMap();
             map.ShowHUD(player, enemy);
+
             while (!player.gameOver)
             {
-                Debug.WriteLine(player.gameOver);
                 if (!player.healthSystem.isDead)
                 {
                     player.PlayerDraw();
@@ -38,13 +41,11 @@ namespace TextBasedRPGFirstPlayable
                 }
                 if (!enemy.healthSystem.isDead)
                 {
-                    Debug.WriteLine(player.gaveDamage);
                     if (!player.gaveDamage)
                     {
                         enemy.EnemyUpdate();
                     }
                     player.gaveDamage = false;
-                    Debug.WriteLine(player.gaveDamage);
                 }
                 if (player.healthSystem.isDead)
                 {

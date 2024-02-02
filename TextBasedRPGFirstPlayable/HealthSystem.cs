@@ -8,14 +8,19 @@ namespace TextBasedRPGFirstPlayable
 {
     public class HealthSystem
     {
+        #region Variables
         public int health;
         public int maxHealth;
         public bool isDead;
+        #endregion
 
+        #region Constructor
         public HealthSystem(int initHealth)
         {
             health = initHealth;
         }
+        #endregion
+
         public void TakeDamage(int damage)
         {
             if (damage < 0)

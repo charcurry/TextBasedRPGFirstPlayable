@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 
 namespace TextBasedRPGFirstPlayable
@@ -19,7 +18,7 @@ namespace TextBasedRPGFirstPlayable
         public int borderOffset = 1;
         #endregion
 
-        #region Map
+        #region Map File
         static string path = @"map.txt";
         static readonly string[] mapRows = File.ReadAllLines(path);
         #endregion
@@ -29,20 +28,7 @@ namespace TextBasedRPGFirstPlayable
         public int mapYLength = mapRows.Length;
         #endregion
 
-        #region Player Surrounding Tiles Check
-        public char nextTileUp;
-        public char nextTileDown;
-        public char nextTileLeft;
-        public char nextTileRight;
-        #endregion
-
-        #region Enemy Surrounding Tiles Check
-        public char enemyNextTileUp;
-        public char enemyNextTileDown;
-        public char enemyNextTileLeft;
-        public char enemyNextTileRight;
-        #endregion
-
+        #region Entities
         private List<Entity> entities = new List<Entity>();
 
         public Map(List<Entity> initialEntities)
@@ -107,60 +93,110 @@ namespace TextBasedRPGFirstPlayable
         {
             return entities;
         }
+        #endregion
 
+        #region Constructor
         public Map()
         {
-            //mapPlayer = player;
-            //mapEnemy = enemy;
-            //Console.WriteLine("Player Class Constructed");
+            Debug.WriteLine("Map Class Constructed");
         }
+        #endregion
 
         public void RenderMap()
         {
             Console.SetCursorPosition(0, 0);
 
 
-            //Console.Write('+');
+            Console.Write('┌');
             for (int i = 0; i < mapXLength; i++)
             {
-                //Console.Write('-');
+                Console.Write('─');
             }
-            //Console.Write('+');
-            //Console.WriteLine();
+            Console.Write('┐');
+            Console.WriteLine();
             for (int y = 0; y < mapRows.Length; y++)
             {
-                //Console.Write('|');
+                Console.Write('│');
                 string mapRow = mapRows[y];
                 for (int x = 0; x < mapRow.Length; x++)
                 {
                     char tile = mapRow[x];
-                    Console.Write(tile);
+                    WriteTile(tile);
 
                 }
-                //Console.Write('|');
+                Console.Write('│');
                 Console.WriteLine();
             }
-            //Console.Write('+');
+            Console.Write('└');
             for (int i = 0; i < mapXLength; i++)
             {
-                //Console.Write('-');
+                Console.Write('─');
             }
-            //Console.Write('+');
+            Console.Write('┘');
             Console.WriteLine();
+        }
+
+        public void WriteTile(char tile)
+        {
+            if (tile == '^')
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write('▲');
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else if (tile == '*')
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write('♣');
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else if (tile == ' ')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(' ');
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else if (tile == '~')
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write('»');
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else if (tile == 'A')
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write('⌂');
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write(tile);
+            }
         }
 
         public char GetTile(Point2D coords)
         {
-            return mapRows[coords.y][coords.x];
+            return mapRows[coords.y - borderOffset][coords.x - borderOffset];
         }
 
+        #region HUD
         static void RenderLegend()
         {
-            Console.WriteLine("~ - River");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("▲ - Mountains (Cannot Climb)");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("» - Rivers");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("  - Grass");
-            Console.WriteLine("A - Village");
-            Console.WriteLine("^ - Mountain (Cannot Climb)");
-            Console.WriteLine("* - Trees");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("♣ - Trees");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("⌂ - Towns");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
 
@@ -176,5 +212,6 @@ namespace TextBasedRPGFirstPlayable
             RenderLegend();
             RenderHealth(player, enemy);
         }
+        #endregion
     }
 }
